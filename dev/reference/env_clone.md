@@ -40,14 +40,14 @@ env <- env(a = 1, b = 2)
 clone <- env_clone(env)
 
 env_print(clone)
-#> <environment: 0x561232ed1a38>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d93631af40>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <dbl>
 #> • b: <dbl>
 env_print(env)
-#> <environment: 0x561232f2fee0>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d9363802a0>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <dbl>
 #> • b: <dbl>
@@ -57,15 +57,15 @@ env_print(env)
 env_bind(clone, a = "foo", c = 3)
 
 env_print(clone)
-#> <environment: 0x561232ed1a38>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d93631af40>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <chr>
 #> • b: <dbl>
 #> • c: <dbl>
 env_print(env)
-#> <environment: 0x561232f2fee0>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d9363802a0>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <dbl>
 #> • b: <dbl>
@@ -76,8 +76,8 @@ lhs <- env(a = 1)
 rhs <- env(a = "a", b = "b", c = "c")
 env_coalesce(lhs, rhs)
 env_print(lhs)
-#> <environment: 0x56122e2d16d8>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d93a8f4fa0>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <dbl>
 #> • b: <chr>
@@ -88,8 +88,8 @@ env_print(lhs)
 env_unbind(lhs, env_names(rhs))
 env_coalesce(lhs, rhs)
 env_print(lhs)
-#> <environment: 0x56122e2d16d8>
-#> Parent: <environment: 0x561233039708>
+#> <environment: 0x55d93a8f4fa0>
+#> Parent: <environment: 0x55d9363dad30>
 #> Bindings:
 #> • a: <chr>
 #> • b: <chr>

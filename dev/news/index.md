@@ -2,10 +2,20 @@
 
 ## rlang (development version)
 
+## rlang 1.2.0
+
+CRAN release: 2026-04-06
+
+- rlang and tidyeval are now fully backed by official C APIs of R!
+  Thanks to the R core team for collaborating with us on this.
+
+- [`ns_registry_env()`](https://rlang.r-lib.org/dev/reference/ns_registry_env.md)
+  is defunct in R \>= 4.6.0 for compliance with the C API of R.
+
 - New type-checking functions exported from rlang:
   [`check_bool()`](https://rlang.r-lib.org/dev/reference/check_type_scalar.md),
   [`check_string()`](https://rlang.r-lib.org/dev/reference/check_type_scalar.md),
-  [`check_name()`](https://rlang.r-lib.org/dev/reference/check_type_scalar.md),
+  `check_name()`,
   [`check_number_decimal()`](https://rlang.r-lib.org/dev/reference/check_type_number.md),
   [`check_number_whole()`](https://rlang.r-lib.org/dev/reference/check_type_number.md),
   and
