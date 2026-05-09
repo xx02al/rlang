@@ -81,7 +81,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rlang-development-version">rlang (development version)<a class="anchor" aria-label="anchor" href="#rlang-development-version"></a></h2>
-</div>
+<ul><li>
+<p><code><a href="../reference/hash.html">hash()</a></code> now uses its own walking strategy to make it independent of pecularities of the R serialiser. This fixes stability issues with function bytecode and shrinkable vectors on R 4.6.0 (<a href="https://github.com/r-lib/rlang/issues/1681" class="external-link">#1681</a>).</p>
+<p>This does mean that with this version all hash values will now be different. In general we gain stability across versions of R, but may lose some stability across versions of rlang. We’ll try and avoid changes to our hash algorithm for the sake of stability but you should assume it’s always possible for a new version to invalidate existing hashes.</p>
+</li>
+<li><p>Fixed <code><a href="../reference/env_get.html">env_get()</a></code> issue causing double evaluation of active bindings on older R versions &lt;= 4.4 (<a href="https://github.com/r-lib/rlang/issues/1893" class="external-link">#1893</a>).</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="rlang-120">rlang 1.2.0<a class="anchor" aria-label="anchor" href="#rlang-120"></a></h2><p class="text-muted">CRAN release: 2026-04-06</p>
 <ul><li><p>rlang and tidyeval are now fully backed by official C APIs of R! Thanks to the R core team for collaborating with us on this.</p></li>
@@ -229,7 +234,7 @@ Caused by error in `their_function()`:
 <li><p><code>abort(message = )</code> can now be a function. In this case, it is stored in the <code>header</code> field and acts as a <code><a href="../reference/cnd_message.html">cnd_header()</a></code> method invoked when the message is displayed.</p></li>
 <li><p>New <code>obj_type_oo()</code> function in <code>compat-obj-type.R</code> (<a href="https://github.com/r-lib/rlang/issues/1426" class="external-link">#1426</a>).</p></li>
 <li><p><code>friendly_type_of()</code> from <code>compat-obj-type.R</code> (formerly <code>compat-friendly-type.R</code>) is now <code>obj_type_friendly()</code>.</p></li>
-<li><p><code>options(backtrace_on_error = "collapse")</code> and <code>print(trace,   simplify = "collapse")</code> are deprecated. They fall back to <code>"none"</code> with a warning.</p></li>
+<li><p><code>options(backtrace_on_error = "collapse")</code> and <code>print(trace, simplify = "collapse")</code> are deprecated. They fall back to <code>"none"</code> with a warning.</p></li>
 <li><p><code><a href="../reference/call_match.html">call_match()</a></code> now better handles <code>...</code> when <code>dots_expand = FALSE</code>.</p></li>
 <li><p><code>list2(!!!x)</code> is now faster when <code>x</code> is a list. It is now returned as is instead of being duplicated into a new list.</p></li>
 <li><p><code><a href="../reference/abort.html">abort()</a></code> gains a <code>.trace_bottom</code> argument to disambiguate from other <code>.frame</code>. This allows <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> to wrap <code><a href="../reference/abort.html">abort()</a></code> in such a way that <code>.internal</code> mentions the correct package to report the error in (<a href="https://github.com/r-lib/rlang/issues/1386" class="external-link">#1386</a>).</p></li>
@@ -685,7 +690,7 @@ Caused by error in `their_function()`:
 <h3 id="new-functions-and-features-0-4-0">New functions and features<a class="anchor" aria-label="anchor" href="#new-functions-and-features-0-4-0"></a></h3>
 <ul><li><p>New <code><a href="../reference/pairlist2.html">pairlist2()</a></code> function with splicing support. It preserves missing arguments, which makes it useful for lists of formal parameters for functions.</p></li>
 <li><p><code><a href="../reference/scalar-type-predicates.html">is_bool()</a></code> is a scalar type predicate that checks whether its input is a single <code>TRUE</code> or <code>FALSE</code>. Like <code><a href="../reference/scalar-type-predicates.html">is_string()</a></code>, it returns <code>FALSE</code> when the input is missing. This is useful for type-checking function arguments (<a href="https://github.com/r-lib/rlang/issues/695" class="external-link">#695</a>).</p></li>
-<li><p><code><a href="../reference/scalar-type-predicates.html">is_string()</a></code> gains a <code>string</code> argument. <code>is_string(x, "foo")</code> is a shortcut for <code>is_character(x) &amp;&amp; length(x) == 1 &amp;&amp; identical(x,   "foo")</code>.</p></li>
+<li><p><code><a href="../reference/scalar-type-predicates.html">is_string()</a></code> gains a <code>string</code> argument. <code>is_string(x, "foo")</code> is a shortcut for <code>is_character(x) &amp;&amp; length(x) == 1 &amp;&amp; identical(x, "foo")</code>.</p></li>
 <li><p>Lists of quosures now have pillar methods for display in tibbles.</p></li>
 <li>
 <p><code><a href="../reference/set_names.html">set_names()</a></code> now names unnamed input vectors before applying a function. The following expressions are now equivalent:</p>
@@ -952,7 +957,7 @@ Caused by error in `their_function()`:
 <p>Deprecation warnings shouldn’t make R CMD check fail for packages using testthat. However, <code>expect_silent()</code> can transform the warning to a hard failure.</p>
 <div class="section level5">
 <h5 id="tidyeval-0-3-0">tidyeval<a class="anchor" aria-label="anchor" href="#tidyeval-0-3-0"></a></h5>
-<ul><li><p><code>.data[[foo]]</code> is now an unquote operator. This guarantees that <code>foo</code> is evaluated in the context rather than the data mask and makes it easier to treat <code>.data[["bar"]]</code> the same way as a symbol. For instance, this will help ensuring that <code>group_by(df,   .data[["name"]])</code> and <code>group_by(df, name)</code> produce the same column name.</p></li>
+<ul><li><p><code>.data[[foo]]</code> is now an unquote operator. This guarantees that <code>foo</code> is evaluated in the context rather than the data mask and makes it easier to treat <code>.data[["bar"]]</code> the same way as a symbol. For instance, this will help ensuring that <code>group_by(df, .data[["name"]])</code> and <code>group_by(df, name)</code> produce the same column name.</p></li>
 <li><p>Automatic naming of expressions now uses a new deparser (still unexported) instead of <code><a href="../reference/quo_label.html">quo_text()</a></code>. Following this change, automatic naming is now compatible with all object types (via <code><a href="https://pillar.r-lib.org/reference/type_sum.html" class="external-link">pillar::type_sum()</a></code> if available), prevents multi-line names, and ensures <code>name</code> and <code>.data[["name"]]</code> are given the same default name.</p></li>
 <li><p>Supplying a name with <code>!!!</code> calls is soft-deprecated. This name is ignored because only the names of the spliced vector are applied.</p></li>
 <li><p>Quosure lists returned by <code><a href="../reference/defusing-advanced.html">quos()</a></code> and <code><a href="../reference/enquo.html">enquos()</a></code> now have “list-of” behaviour: the types of new elements are checked when adding objects to the list. Consequently, assigning non-quosure objects to quosure lists is now soft-deprecated. Please coerce to a bare list with <code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> beforehand.</p></li>

@@ -2,6 +2,23 @@
 
 ## rlang (development version)
 
+- [`hash()`](https://rlang.r-lib.org/dev/reference/hash.md) now uses its
+  own walking strategy to make it independent of pecularities of the R
+  serialiser. This fixes stability issues with function bytecode and
+  shrinkable vectors on R 4.6.0
+  ([\#1681](https://github.com/r-lib/rlang/issues/1681)).
+
+  This does mean that with this version all hash values will now be
+  different. In general we gain stability across versions of R, but may
+  lose some stability across versions of rlang. We’ll try and avoid
+  changes to our hash algorithm for the sake of stability but you should
+  assume it’s always possible for a new version to invalidate existing
+  hashes.
+
+- Fixed [`env_get()`](https://rlang.r-lib.org/dev/reference/env_get.md)
+  issue causing double evaluation of active bindings on older R versions
+  \<= 4.4 ([\#1893](https://github.com/r-lib/rlang/issues/1893)).
+
 ## rlang 1.2.0
 
 CRAN release: 2026-04-06
@@ -1692,6 +1709,7 @@ CRAN release: 2020-01-24
   A single pair of braces triggers normal glue interpolation:
 
   ``` r
+
   df <- data.frame(x = 1:3)
 
   suffix <- "foo"
@@ -1708,6 +1726,7 @@ CRAN release: 2020-01-24
   arguments:
 
   ``` r
+
   my_wrapper <- function(data, var, suffix = "foo") {
     data %>% dplyr::mutate("{{ var }}_{suffix}" := {{ var }} * 2)
   }
@@ -2163,6 +2182,7 @@ the future. Finally, a bunch of deparsing issues have been fixed.
   backtraces for all errors, including warnings promoted to errors:
 
   ``` r
+
   if (requireNamespace("rlang", quietly = TRUE)) {
     options(error = rlang::entrace)
   }
@@ -2171,6 +2191,7 @@ the future. Finally, a bunch of deparsing issues have been fixed.
   This handler also works as a calling handler:
 
   ``` r
+
   with_handlers(
     error = calling(entrace),
     foo(bar)
@@ -2180,6 +2201,7 @@ the future. Finally, a bunch of deparsing issues have been fixed.
   However it’s often more practical to use `with_abort()` in that case:
 
   ``` r
+
   with_abort(foo(bar))
   ```
 
@@ -2387,6 +2409,7 @@ list of API changes.
   values.
 
   ``` r
+
   call_modify(call, arg = NULL)  # Add `arg = NULL` to the call
   call_modify(call, arg = zap()) # Remove the `arg` argument from the call
   ```
