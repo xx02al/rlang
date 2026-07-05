@@ -1,0 +1,38 @@
+# Create a formula
+
+Create a formula
+
+## Usage
+
+``` r
+new_formula(lhs, rhs, env = caller_env())
+```
+
+## Arguments
+
+- lhs, rhs:
+
+  A call, name, or atomic vector.
+
+- env:
+
+  An environment.
+
+## Value
+
+A formula object.
+
+## See also
+
+[`new_quosure()`](https://rlang.r-lib.org/reference/new_quosure.md)
+
+## Examples
+
+``` r
+new_formula(quote(a), quote(b))
+#> a ~ b
+#> <environment: 0x55739f1621a8>
+new_formula(NULL, quote(b))
+#> ~b
+#> <environment: 0x55739f1621a8>
+```
