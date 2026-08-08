@@ -31,8 +31,8 @@ A formula object.
 ``` r
 new_formula(quote(a), quote(b))
 #> a ~ b
-#> <environment: 0x563d8560d010>
+#> <environment: 0x5639e3904ce8>
 new_formula(NULL, quote(b))
 #> ~b
-#> <environment: 0x563d8560d010>
+#> <environment: 0x5639e3904ce8>
 ```

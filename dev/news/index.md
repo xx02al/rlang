@@ -2,6 +2,24 @@
 
 ## rlang (development version)
 
+- Fixed a use-after-free that could corrupt the result of
+  [`expr()`](https://rlang.r-lib.org/dev/reference/expr.md) and other
+  injection functions when `!!` injection required an operator
+  precedence fixup of the AST and a garbage collection occurred during
+  injection ([\#1910](https://github.com/r-lib/rlang/issues/1910)).
+
+- Fixed backtrace links for `file://` URLs in srcrefs.
+
+- Backtraces no longer emit file hyperlinks for source files that don’t
+  exist on disk, such as the `R CMD INSTALL` staging directory recorded
+  when a package is installed kept srcrefs. The location is shown as
+  plain text instead
+  ([\#1908](https://github.com/r-lib/rlang/issues/1908)).
+
+## rlang 1.3.0
+
+CRAN release: 2026-07-05
+
 - [`hash()`](https://rlang.r-lib.org/dev/reference/hash.md) now uses its
   own walking strategy to make it independent of pecularities of the R
   serialiser. This fixes stability issues with function bytecode and
