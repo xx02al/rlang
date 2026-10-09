@@ -53,8 +53,8 @@ f_lhs(x ~ y)
 #> x
 
 f_env(~ x)
-#> <environment: 0x55d017cf6508>
+#> <environment: 0x56448e39e890>
 f <- as.formula("y ~ x", env = new.env())
 f_env(f)
-#> <environment: 0x55d0171ca3f8>
+#> <environment: 0x56448e29c5f0>
 ```
